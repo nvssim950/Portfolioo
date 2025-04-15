@@ -43,7 +43,7 @@ export default function HeroSection() {
             >
               <Link 
                 href="/projects" 
-                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-white text-blue-700 hover:bg-blue-50 font-medium text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-sky-500 text-blue-700 hover:bg-sky-400  font-medium text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 View Our Work
                 <svg className="ml-2 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
@@ -52,7 +52,7 @@ export default function HeroSection() {
               </Link>
               <Link 
                 href="/contact" 
-                className="inline-flex items-center justify-center px-6 py-3 rounded-md border-2 border-white text-white hover:bg-white/10 font-medium text-base transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md border-2 border-white text-white hover:bg-bg-sky-500 /10 font-medium text-base transition-all duration-300 hover:scale-105"
               >
                 Contact Us
               </Link>

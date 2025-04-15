@@ -40,7 +40,7 @@ export default function Header() {
         <div className="flex justify-between items-center md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1 transition-all duration-300 hover:scale-105">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">Les <span className="text-blue-600 dark:text-blue-500">Batar</span></span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white"> <span className="text-blue-600 dark:text-blue-500">Trivix</span></span>
             </Link>
           </div>
           

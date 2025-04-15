@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ThemeProvider from './components/ThemeProvider';
-import ClientWrapper from './components/ClientWrapper'; // New component for client-side logic
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,15 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col`}>
-        <ClientWrapper>
-          <ThemeProvider>
-            <Header />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-          </ThemeProvider>
-        </ClientWrapper>
+        <ThemeProvider>
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

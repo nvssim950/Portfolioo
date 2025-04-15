@@ -275,7 +275,7 @@ export default function ServicesPage() {
             <p className="text-xl text-blue-100 mb-8">
               Contact us today to discuss your project needs and discover how our services can help you achieve your goals.
             </p>
-            <Link href="/contact" className="inline-block bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-md text-lg font-medium shadow-lg transition-colors">
+            <Link href="/contact" className="inline-block bg-sky-500 text-blue-600 hover:bg-sky-400 px-8 py-4 rounded-md text-lg font-medium shadow-lg transition-colors">
               Get in Touch
             </Link>
           </div>
