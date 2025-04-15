@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import Image from "next/image";
 import Link from "next/link";
 import HeroSection from './components/HeroSection';
 
@@ -32,14 +31,13 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    // Initial check
-    handleScroll();
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      // Your scroll handling logic
     };
-  }, [animatedElements]);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   return (
     <div className="flex flex-col">
@@ -230,7 +228,7 @@ export default function HomePage() {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
             <p className="text-xl text-blue-100 mb-8">
-              Let's discuss how we can help you achieve your goals with our expertise in web development.
+              Let&apos;s discuss how we can help you achieve your goals with our expertise in web development.
             </p>
             <Link href="/contact" className="inline-block bg-sky-500  text-blue-600 hover:bg-sky-500  px-8 py-4 rounded-md text-lg font-medium shadow-lg transition-colors">
               Contact Us

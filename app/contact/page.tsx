@@ -84,7 +84,7 @@ const ContactPage = () => {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl text-blue-100">
-              Have a project in mind? Get in touch with our team to discuss how we can help bring your ideas to life.
+              We&apos;d love to hear from you. Please fill out the form below and we&apos;ll get back to you as soon as possible.
             </p>
           </div>
         </div>
@@ -98,7 +98,7 @@ const ContactPage = () => {
             <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-8">
               <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
               <p className="text-gray-600 dark:text-gray-400 mb-8">
-                Fill out the form below and we'll get back to you as soon as possible.
+                We&apos;re committed to providing excellent customer service and will respond to your inquiry within 24 hours.
               </p>
 
               {formStatus.submitted && (

@@ -20,7 +20,6 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const [imageError, setImageError] = useState(false);
-  const fallbackImage = '/images/projects/Capture.jpg';
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-scaleIn">
@@ -34,14 +33,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         ) : (
           <div className="relative w-full h-full">
-            <img
-  src={project.imageUrl}
-  alt={project.title || 'Project image'}
-  className="object-cover transition-transform duration-500 group-hover:scale-105"
-  onError={() => setImageError(true)}
-  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-/>
-
+            <Image 
+              src={project.imageUrl} 
+              alt={project.title || 'Project image'}
+              fill
+              priority={project.id === 1}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImageError(true)}
+            />
             <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition-all duration-300"></div>
           </div>
         )}
