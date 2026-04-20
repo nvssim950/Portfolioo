@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 import { PROFILE } from "@/lib/data";
 
-export const runtime = "edge";
 export const alt = `${PROFILE.name} — ${PROFILE.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -17,8 +16,9 @@ export default async function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background:
-            "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 30%, transparent 70%), #0a0a0a",
+          backgroundColor: "#0a0a0a",
+          backgroundImage:
+            "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 30%, transparent 70%)",
           color: "#fafafa",
           fontFamily: "sans-serif",
         }}
