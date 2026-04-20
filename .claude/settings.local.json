@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /home/nvssim/code/PORT/public)",
+      "Bash(cp \"/home/nvssim/Downloads/Telegram Desktop/photo_2026-04-20_15-18-13.jpg\" /home/nvssim/code/PORT/public/nassim.jpg)",
+      "Bash(curl -sS http://localhost:3030/ -o /tmp/port-home.html -w \"%{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(curl -sSI http://localhost:3030/nassim.jpg)",
+      "Bash(npm install *)",
+      "mcp__ide__getDiagnostics",
+      "Bash(grep -oE 'siOpenai[^,]{0,200}' /home/nvssim/code/PORT/node_modules/simple-icons/index.mjs)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
