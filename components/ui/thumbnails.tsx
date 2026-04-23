@@ -105,7 +105,110 @@ export function DesignThumb() {
   );
 }
 
-export function ProjectThumb({ kind }: { kind: "automation" | "agent" | "web" | "design" }) {
+/* ---------- RedScrape ---------- */
+
+const SCRAPER_ROWS = [
+  "Free n8n workflow — Crypto price alert to Telegram",
+  "n8n workflow: Facebook Messenger + AI Agent",
+  "How to set up document classification in n8n",
+  "My first n8n automation workflow is live",
+];
+
+export function ScraperThumb() {
+  return (
+    <div className="flex h-full w-full flex-col p-4 md:p-6">
+      <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-foreground/40 md:text-[10px]">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="dot-pulse relative h-1 w-1 rounded-full bg-success" />
+          r/n8n · scraping
+        </span>
+        <span className="tabular-nums text-foreground/30">04 / 04</span>
+      </div>
+
+      <ul className="mt-3 flex flex-col md:mt-4">
+        {SCRAPER_ROWS.map((title, i) => (
+          <li
+            key={i}
+            className="scrape-row flex items-center gap-2 border-b border-white/[0.05] py-1.5 last:border-b-0 md:gap-3 md:py-2"
+            style={{ animationDelay: `${i * 0.35}s` }}
+          >
+            <span className="font-mono text-[9px] tabular-nums text-foreground/35 md:text-[10px]">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="truncate text-[11px] text-foreground/80 md:text-[12px]">
+              {title}
+            </span>
+            <span className="ml-auto hidden shrink-0 rounded-full border border-white/10 bg-white/[0.02] px-1.5 py-[1px] font-mono text-[8px] uppercase tracking-widest text-foreground/50 sm:inline-block">
+              flair
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ---------- MedAide ---------- */
+
+export function HealthThumb() {
+  const path =
+    "M0,30 L40,30 L52,30 L60,8 L68,52 L78,30 L120,30 L132,30 L140,12 L148,50 L158,30 L200,30 L212,30 L220,16 L228,48 L240,30";
+  return (
+    <div className="flex h-full w-full flex-col p-4 md:p-6">
+      <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-foreground/40 md:text-[10px]">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="dot-pulse relative h-1 w-1 rounded-full bg-success" />
+          consultation · active
+        </span>
+        <span className="text-foreground/30">pt-0421</span>
+      </div>
+
+      <div className="flex flex-1 items-center py-2">
+        <svg
+          viewBox="0 0 240 60"
+          className="h-full w-full"
+          preserveAspectRatio="none"
+          role="img"
+          aria-label="ECG trace"
+        >
+          <defs>
+            <linearGradient id="ecgFade" x1="0" x2="1">
+              <stop offset="0%" stopColor="rgba(250,250,250,0)" />
+              <stop offset="50%" stopColor="rgba(250,250,250,0.95)" />
+              <stop offset="100%" stopColor="rgba(250,250,250,0)" />
+            </linearGradient>
+          </defs>
+          <path
+            d={path}
+            fill="none"
+            stroke="rgba(250,250,250,0.08)"
+            strokeWidth="1"
+          />
+          <path
+            d={path}
+            fill="none"
+            stroke="url(#ecgFade)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="ecg-line"
+          />
+        </svg>
+      </div>
+
+      <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-foreground/40 md:text-[10px]">
+        <span>72 bpm · stable</span>
+        <span className="text-foreground/30">lead II</span>
+      </div>
+    </div>
+  );
+}
+
+export function ProjectThumb({
+  kind,
+}: {
+  kind: "automation" | "agent" | "web" | "design" | "scraper" | "health";
+}) {
   return (
     <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
       <div className="noise" />
@@ -113,6 +216,8 @@ export function ProjectThumb({ kind }: { kind: "automation" | "agent" | "web" | 
       {kind === "agent" && <AgentThumb />}
       {kind === "web" && <WebThumb />}
       {kind === "design" && <DesignThumb />}
+      {kind === "scraper" && <ScraperThumb />}
+      {kind === "health" && <HealthThumb />}
     </div>
   );
 }

@@ -143,3 +143,35 @@ body {
 /* Hide scrollbar visually but keep functional */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ---- RedScrape thumbnail ---- */
+@keyframes scrape-row-in {
+  0%   { opacity: 0; transform: translateY(6px); }
+  18%  { opacity: 1; transform: translateY(0); }
+  82%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-3px); }
+}
+.scrape-row {
+  opacity: 0;
+  animation: scrape-row-in 3.6s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+
+/* ---- MedAide thumbnail ---- */
+@keyframes ecg-sweep {
+  0%   { stroke-dashoffset: 540; }
+  100% { stroke-dashoffset: 0; }
+}
+.ecg-line {
+  stroke-dasharray: 540;
+  stroke-dashoffset: 540;
+  animation: ecg-sweep 2.8s linear infinite;
+}
+
+/* ---- Project detail page ---- */
+.grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 80%);
+}

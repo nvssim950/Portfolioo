@@ -1,6 +1,7 @@
 import {
   siAnthropic,
   siFigma,
+  siGithub,
   siLangchain,
   siMake,
   siN8n,
@@ -22,6 +23,7 @@ const OPENAI_PATH =
 const PATHS: Record<string, string> = {
   anthropic: siAnthropic.path,
   figma: siFigma.path,
+  github: siGithub.path,
   langchain: siLangchain.path,
   make: siMake.path,
   n8n: siN8n.path,
