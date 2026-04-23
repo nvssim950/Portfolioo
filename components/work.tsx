@@ -10,6 +10,8 @@ const LABELS: Record<string, string> = {
   agent: "Agent",
   web: "Web App",
   design: "Design",
+  scraper: "Desktop · Scraper",
+  health: "Healthcare · Desktop",
 };
 
 export function Work() {
@@ -36,55 +38,60 @@ export function Work() {
       </div>
 
       <div className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2">
-        {PROJECTS.map((p, i) => (
-          <Reveal key={p.id} delay={0.05 * i}>
-            <Link
-              href={p.href}
-              className="group relative block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-colors hover:border-white/15 hover:bg-white/[0.04] md:p-6"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-background/60">
-                <ProjectThumb kind={p.kind} />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent"
-                />
-              </div>
-
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-foreground/40">
-                    <span>{LABELS[p.kind]}</span>
-                    <span aria-hidden>·</span>
-                    <span>{p.year}</span>
-                  </div>
-                  <h3 className="font-display mt-3 text-xl font-medium leading-snug md:text-[26px]">
-                    {p.title}
-                  </h3>
+        {PROJECTS.map((p, i) => {
+          const hasDetail = Boolean(p.description);
+          const href = hasDetail ? `/work/${p.slug}` : "#";
+          return (
+            <Reveal key={p.id} delay={0.05 * i}>
+              <Link
+                href={href}
+                aria-label={hasDetail ? `Open ${p.title} case study` : p.title}
+                className="group relative block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-colors hover:border-white/15 hover:bg-white/[0.04] md:p-6"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-background/60">
+                  <ProjectThumb kind={p.kind} />
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent"
+                  />
                 </div>
-                <ArrowUpRight
-                  size={20}
-                  strokeWidth={1.6}
-                  className="mt-1 shrink-0 text-foreground/50 transition-all duration-300 group-hover:rotate-45 group-hover:text-foreground"
-                />
-              </div>
 
-              <p className="mt-3 text-pretty text-sm text-foreground/65 md:text-base">
-                {p.blurb}
-              </p>
+                <div className="mt-5 flex items-start justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-foreground/40">
+                      <span>{LABELS[p.kind]}</span>
+                      <span aria-hidden>·</span>
+                      <span>{p.year}</span>
+                    </div>
+                    <h3 className="font-display mt-3 text-xl font-medium leading-snug md:text-[26px]">
+                      {p.title}
+                    </h3>
+                  </div>
+                  <ArrowUpRight
+                    size={20}
+                    strokeWidth={1.6}
+                    className="mt-1 shrink-0 text-foreground/50 transition-all duration-300 group-hover:rotate-45 group-hover:text-foreground"
+                  />
+                </div>
 
-              <ul className="mt-5 flex flex-wrap gap-1.5">
-                {p.tags.map((t) => (
-                  <li
-                    key={t}
-                    className="rounded-full border border-white/[0.08] bg-white/[0.02] px-2.5 py-1 text-[11px] text-foreground/60"
-                  >
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </Link>
-          </Reveal>
-        ))}
+                <p className="mt-3 text-pretty text-sm text-foreground/65 md:text-base">
+                  {p.blurb}
+                </p>
+
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full border border-white/[0.08] bg-white/[0.02] px-2.5 py-1 text-[11px] text-foreground/60"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </Link>
+            </Reveal>
+          );
+        })}
       </div>
     </section>
   );
