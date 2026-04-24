@@ -100,6 +100,14 @@ export type ProjectKind =
   | "scraper"
   | "health";
 
+export type WorkflowNode = {
+  id: string;
+  x: number;
+  y: number;
+  label: string;
+  sub: string;
+};
+
 export type Project = {
   id: string;
   slug: string;
@@ -118,6 +126,10 @@ export type Project = {
   url?: string;
   screenshots?: { src: string; alt: string; caption?: string }[];
   video?: string;
+  workflow?: {
+    nodes: WorkflowNode[];
+    edges: Array<[string, string]>;
+  };
 };
 
 export const PROJECTS: ReadonlyArray<Project> = [
@@ -130,7 +142,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
     blurb:
       "I built a cross-platform desktop scraper that pulls Reddit posts by flair, streams them live into a results table, and exports clean JSON or CSV no Python setup required.",
     description: [
-      "RedScrape is a native-feeling desktop app for grabbing Reddit posts filtered by an exact flair — the sort of task that's tedious in a browser and overkill for a full PRAW setup. The UI stays responsive while a headless Chromium, driven by Playwright, walks old.reddit.com and streams rows into the results table as they land.",
+      "RedScrape is a native-feeling desktop app for grabbing Reddit posts filtered by an exact flair, the sort of task that's tedious in a browser and overkill for a full PRAW setup. The UI stays responsive while a headless Chromium, driven by Playwright, walks old.reddit.com and streams rows into the results table as they land.",
       "Every knob is exposed in the form: subreddit, flair, sort, time range, limit, and the exact set of fields to extract (title, author, score, body, GitHub links pulled from post bodies, and more). Results stream live with a progress bar, a log tab, and a Stop button that preserves whatever was scraped so far.",
       "I packaged it with PyInstaller and wired a GitHub Actions workflow that builds standalone binaries for Windows, macOS, and Linux on every version tag, users download and run, no Python install needed.",
     ],
@@ -144,8 +156,8 @@ export const PROJECTS: ReadonlyArray<Project> = [
     screenshots: [
       {
         src: "/projects/redscrape-screenshot.png",
-        alt: "RedScrape desktop UI showing a scrape of r/n8n filtered by the 'Workflow - Github Included' flair",
-        caption: "Live scrape of r/n8n · flair-filtered · GitHub links extracted from post bodies",
+        alt: "RedScrape desktop UI showing a scrape of r/n8n",
+        caption: "Live scrape of r/n8n",
       },
     ],
   },
@@ -179,23 +191,87 @@ export const PROJECTS: ReadonlyArray<Project> = [
     year: "2026",
   },
   {
-    id: "lead-qualifier",
-    slug: "lead-qualifier",
-    kind: "automation",
-    title: "Lead Qualification Engine",
+    id: "ai-outreach-agent",
+    slug: "ai-outreach-agent",
+    kind: "agent",
+    title: "AI Lead Qualification & Outreach",
+    tagline:
+      "An n8n agent that scores every inbound lead, drafts a tailored cold email, and ships it, before your SDR refreshes their inbox.",
     blurb:
-      "I built an n8n pipeline that scrapes inbound leads, enriches them via Apollo, scores them with GPT-4, and routes them to Slack. Cuts SDR triage time by 80%.",
-    tags: ["n8n", "OpenAI", "Apollo", "Slack"],
+      "I built an n8n workflow that takes a raw inbound lead, reads the company website, scores ICP fit with a GPT-5-mini agent, and either sends a personalized cold email + Slack ping, or logs the lead as skipped, all in a single POST.",
+    description: [
+      "The workflow exposes a single webhook endpoint. POST a lead firstName, lastName, email, company, website, notes, and the pipeline normalizes the payload, fetches and cleans the company's homepage, and hands a clean context block to a GPT-5-mini agent that scores ICP fit on a 0–10 scale and drafts a fully personalized cold email in one structured-JSON pass.",
+      "A strict output parser enforces the response schema (score, reasoning, subject, body) so downstream nodes never have to guess. An If node branches on the score: at 7 or above the lead is routed to Gmail for delivery, pinged into Slack for the team, and logged to a Leads data table as sent; below 7 it's logged as skipped so nothing is silently dropped.",
+      "The webhook responds to the caller immediately with the analysis, so the submitter gets instant feedback while the send + notify + log steps finish asynchronously on the qualified branch. OpenAI, Gmail OAuth2, Slack OAuth2, and the n8n Data Table node are wired in once through the credentials layer, no secrets in the workflow itself.",
+    ],
+    stack: ["n8n", "OpenAI (GPT-5-mini)", "Gmail OAuth2", "Slack OAuth2", "n8n Data Tables", "Webhook"],
+    role: "Sole designer & builder",
+    status: "Shipped",
+    tags: ["n8n", "OpenAI", "Gmail", "Slack"],
     year: "2026",
+    github: "https://github.com/nvssim950/n8n-projects/blob/main/AiPersonalizedOutreach.json",
+    screenshots: [
+      {
+        src: "/projects/ai-outreach-agent-screenshot.png",
+        alt: "n8n workflow graph for AI Lead Qualification & Outreach, webhook intake, website fetch, GPT-5-mini scoring agent, conditional email + Slack delivery",
+        caption: "Webhook → normalize → fetch site → GPT-5-mini agent → qualified branch: email + Slack + log",
+      },
+    ],
+    workflow: {
+      nodes: [
+        { id: "webhook", x: 20,  y: 110, label: "Webhook",    sub: "New lead" },
+        { id: "fetch",   x: 165, y: 50,  label: "Fetch Site", sub: "Context" },
+        { id: "gpt",     x: 310, y: 110, label: "GPT-5",      sub: "Score + draft" },
+        { id: "gmail",   x: 430, y: 40,  label: "Gmail",      sub: "Send email" },
+        { id: "slack",   x: 430, y: 170, label: "Slack",      sub: "Notify team" },
+      ],
+      edges: [
+        ["webhook", "fetch"],
+        ["fetch",   "gpt"],
+        ["gpt",     "gmail"],
+        ["gpt",     "slack"],
+      ],
+    },
   },
   {
-    id: "research-agent",
-    slug: "research-agent",
+    id: "content-repurposing-agent",
+    slug: "content-repurposing-agent",
     kind: "agent",
-    title: "Research Agent for a VC Firm",
+    title: "AI Content Repurposing Agent",
+    tagline:
+      "One long-form asset in. Five platform-native drafts and five title variants out, reviewed in Notion, announced in Slack.",
     blurb:
-      "I built a multi-tool agent that monitors deal flow, pulls SEC filings and news, and drafts a daily memo. Built on LangChain, Claude, and Postgres.",
-    tags: ["LangChain", "Claude", "Postgres"],
+      "I built an n8n agent that takes a creator's transcript, blog, or podcast notes plus their voice and audience, and in a single Claude Sonnet 4.5 call returns 5 platform-native drafts (LinkedIn, X, Newsletter, YouTube Short, Instagram) + 5 title variants, saved to Notion for review and pinged to Slack.",
+    description: [
+      "The workflow starts with a content intake form that creators can embed directly on a portfolio or landing page, they submit one long-form asset (transcript, blog body, or podcast notes) along with their voice, audience, and CTA. A Prepare Context step packages those inputs into a single prompt the agent can reason over.",
+      "The core is a single Claude Sonnet 4.5 call behind a strict JSON output parser: one request returns all five platform-native drafts and five title variants at once. Doing the whole job in one pass is reliable, fast, cheap, and trivially retryable, no orchestration of five separate model calls, no partial-failure states to clean up.",
+      "On the delivery side, a Flatten step unpacks the structured assets and each draft lands in a Notion review database (Title, Status, Content Type, Source URL, Audience, Summary, LinkedIn Post, X Thread, Newsletter, YouTube Short, Instagram Caption, Title Variants). A Slack notification then pings the review channel with the page link so whoever owns the voice can approve, tweak, or publish, no inbox hunting.",
+    ],
+    stack: ["n8n", "Anthropic (Claude Sonnet 4.5)", "Notion API", "Slack OAuth2", "Form Trigger"],
+    role: "Sole designer & builder",
+    status: "Shipped",
+    tags: ["n8n", "Anthropic", "Notion", "Slack"],
     year: "2026",
+    github: "https://github.com/nvssim950/n8n-projects/blob/main/ContentRepurposingAgent.json",
+    screenshots: [
+      {
+        src: "/projects/content-repurposing-agent-screenshot.png",
+        alt: "n8n workflow graph for AI Content Repurposing Agent, intake form, Claude Sonnet 4.5 repurposing, Notion save, Slack notification",
+        caption: "Intake form → Claude Sonnet 4.5 (5 drafts + 5 titles) → Notion review DB → Slack review ping",
+      },
+    ],
+    workflow: {
+      nodes: [
+        { id: "form",   x: 40,  y: 110, label: "Form",       sub: "Intake" },
+        { id: "claude", x: 220, y: 110, label: "Claude 4.5", sub: "Repurpose" },
+        { id: "notion", x: 410, y: 50,  label: "Notion",     sub: "Save drafts" },
+        { id: "slack",  x: 410, y: 170, label: "Slack",      sub: "Review ping" },
+      ],
+      edges: [
+        ["form",   "claude"],
+        ["claude", "notion"],
+        ["claude", "slack"],
+      ],
+    },
   },
 ];

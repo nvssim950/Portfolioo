@@ -2,7 +2,7 @@
 
 /** Mock visual thumbnails for project cards. Pure CSS/SVG, no real assets. */
 
-import { WorkflowViz } from "./workflow-viz";
+import { WorkflowViz, type WorkflowNode, type WorkflowEdge } from "./workflow-viz";
 
 export function AgentThumb() {
   return (
@@ -206,18 +206,26 @@ export function HealthThumb() {
 
 export function ProjectThumb({
   kind,
+  workflow,
 }: {
   kind: "automation" | "agent" | "web" | "design" | "scraper" | "health";
+  workflow?: { nodes: WorkflowNode[]; edges: WorkflowEdge[] };
 }) {
   return (
     <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent">
       <div className="noise" />
-      {kind === "automation" && <WorkflowViz />}
-      {kind === "agent" && <AgentThumb />}
-      {kind === "web" && <WebThumb />}
-      {kind === "design" && <DesignThumb />}
-      {kind === "scraper" && <ScraperThumb />}
-      {kind === "health" && <HealthThumb />}
+      {workflow ? (
+        <WorkflowViz nodes={workflow.nodes} edges={workflow.edges} />
+      ) : (
+        <>
+          {kind === "automation" && <WorkflowViz />}
+          {kind === "agent" && <AgentThumb />}
+          {kind === "web" && <WebThumb />}
+          {kind === "design" && <DesignThumb />}
+          {kind === "scraper" && <ScraperThumb />}
+          {kind === "health" && <HealthThumb />}
+        </>
+      )}
     </div>
   );
 }
