@@ -99,7 +99,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               ) : (
                 <div className="absolute inset-0 p-4 md:p-8">
                   <div className="h-full w-full">
-                    <ProjectThumb kind={project.kind} />
+                    <ProjectThumb kind={project.kind} workflow={project.workflow} />
                   </div>
                 </div>
               )}

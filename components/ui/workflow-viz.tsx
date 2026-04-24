@@ -5,7 +5,17 @@
  * Pure SVG, no images. Used as the project thumbnail for the automation card.
  */
 
-const NODES = [
+export type WorkflowNode = {
+  id: string;
+  x: number;
+  y: number;
+  label: string;
+  sub: string;
+};
+
+export type WorkflowEdge = [string, string];
+
+const DEFAULT_NODES: WorkflowNode[] = [
   { id: "trigger", x: 40,  y: 110, label: "Webhook",   sub: "Trigger" },
   { id: "ai",      x: 220, y: 60,  label: "OpenAI",    sub: "Score lead" },
   { id: "filter",  x: 220, y: 170, label: "Filter",    sub: "If qualified" },
@@ -13,7 +23,7 @@ const NODES = [
   { id: "crm",     x: 410, y: 170, label: "HubSpot",   sub: "Create deal" },
 ];
 
-const EDGES: Array<[string, string]> = [
+const DEFAULT_EDGES: WorkflowEdge[] = [
   ["trigger", "ai"],
   ["trigger", "filter"],
   ["ai", "slack"],
@@ -29,9 +39,14 @@ function pathFor(a: { x: number; y: number }, b: { x: number; y: number }) {
   return `M ${ax},${ay} C ${cx},${ay} ${cx},${by} ${bx},${by}`;
 }
 
-const map = Object.fromEntries(NODES.map((n) => [n.id, n]));
-
-export function WorkflowViz() {
+export function WorkflowViz({
+  nodes = DEFAULT_NODES,
+  edges = DEFAULT_EDGES,
+}: {
+  nodes?: WorkflowNode[];
+  edges?: WorkflowEdge[];
+} = {}) {
+  const map = Object.fromEntries(nodes.map((n) => [n.id, n]));
   return (
     <div className="relative h-full w-full">
       <svg
@@ -48,7 +63,7 @@ export function WorkflowViz() {
           </linearGradient>
         </defs>
 
-        {EDGES.map(([from, to], i) => {
+        {edges.map(([from, to], i) => {
           const a = map[from];
           const b = map[to];
           return (
@@ -66,7 +81,7 @@ export function WorkflowViz() {
           );
         })}
 
-        {NODES.map((n) => (
+        {nodes.map((n) => (
           <g key={n.id} transform={`translate(${n.x}, ${n.y})`}>
             <rect
               width="100"

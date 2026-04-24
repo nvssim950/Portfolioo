@@ -11,7 +11,7 @@ const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nvssim.me";
 const TWITTER_HANDLE = "@BaheddiN52174";
 
-const TITLE = `${PROFILE.name} — ${PROFILE.role}`;
+const TITLE = `${PROFILE.name} ${PROFILE.role}`;
 const DESCRIPTION =
   "Nassim Baheddi freelance engineer building n8n automations, AI agents, and Next.js web apps. Based in Algiers, working with founders worldwide.";
 
@@ -168,7 +168,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${SITE_URL}/#service`,
-    name: `${PROFILE.name} — Automation, Agents & Web`,
+    name: `${PROFILE.name} Automation, Agents & Web`,
     url: SITE_URL,
     description: DESCRIPTION,
     image: `${SITE_URL}/nassim.jpg`,

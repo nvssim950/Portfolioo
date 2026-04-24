@@ -49,7 +49,7 @@ export function Work() {
                 className="group relative block overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 transition-colors hover:border-white/15 hover:bg-white/[0.04] md:p-6"
               >
                 <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-background/60">
-                  <ProjectThumb kind={p.kind} />
+                  <ProjectThumb kind={p.kind} workflow={p.workflow} />
                   <div
                     aria-hidden
                     className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent"
